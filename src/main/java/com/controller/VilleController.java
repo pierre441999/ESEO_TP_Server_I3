@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blo.VilleBLO;
+import com.dto.Ville;
 
 @RestController
 public class VilleController {
@@ -16,11 +17,11 @@ public class VilleController {
 	VilleBLO villeService;
 	@RequestMapping(value = "/ville", method = RequestMethod.GET)
 	@ResponseBody
-	public String appelGet(@RequestParam(required = false, value = "codePostal") String codePostal) {
+	public Ville appelGet(@RequestParam(required = false, value = "codePostal") String codePostal) {
 		System.out.println("Appel Get");
 		System.out.println("code postal : " + codePostal);
-		villeService.getInfoVilles();
-		return "hello world";
+		return villeService.getInfoVilles();
+		 
 
 	}
 }
