@@ -50,6 +50,36 @@ public class VilleDAOImpl implements VilleDAO {
 
 		return listVille;
 	}
+	
+	public ArrayList<Ville> findSpecificVille(String nomCommune) {
+		ArrayList<Ville> listVille = new ArrayList<Ville>();
+
+		try (Connection connexion = bddconfig.getConnection();
+				PreparedStatement preparedStatement = connexion
+						.prepareStatement("SELECT * FROM ville_france WHERE Nom_Commune=?")) {
+			preparedStatement.setString(1, nomCommune);
+			try (ResultSet resultat = preparedStatement.executeQuery()) {
+				while (resultat.next()) {
+					String codeCommune = resultat.getString("Code_Commune_INSEE");
+					String nom_Commune = resultat.getString("Nom_Commune");
+					String codePostal = resultat.getString("Code_postal");
+					String libelle = resultat.getString("Libelle_acheminement");
+					String ligne_5 = resultat.getString("Ligne_5");
+					String latitude = resultat.getString("Latitude");
+					String longitude = resultat.getString("Longitude");
+					
+			
+					Ville ville = new Ville(codeCommune, nom_Commune, codePostal,
+							libelle, ligne_5, latitude, longitude);
+					listVille.add(ville);
+				}
+			}
+		} catch (SQLException e) {
+			this.logger.error("Impossible d'exécuter la requête.", e);
+		}
+
+		return listVille;
+	}
 
 	public void addVille(Ville ville){
 		try (Connection connexion = bddconfig.getConnection();

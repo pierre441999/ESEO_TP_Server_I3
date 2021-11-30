@@ -28,12 +28,13 @@ public class VilleController {
 	// Methode GET
 		@RequestMapping(value = "/ville", method = RequestMethod.GET)
 		@ResponseBody
-		public ArrayList<Ville> appelGet() throws VilleException{
+		public ArrayList<Ville> appelGet(@RequestParam(required = false, value = "nomCommune") String nomCommune) throws VilleException{
 			System.out.println("Appel GET");
 			
 
-			return villeBLOService.getInfoVille();
+			return villeBLOService.getInfoVille(nomCommune);
 		}
+
 		
 	    
 		// Méthode POST

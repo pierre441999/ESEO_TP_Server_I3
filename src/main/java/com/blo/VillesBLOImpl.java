@@ -21,17 +21,20 @@ public class VillesBLOImpl implements VilleBLO {
 //	@Autowired
 //	private VilleDAO villeDAO;
 	
-
-	@Override
-	public ArrayList<Ville> getInfoVille() throws VilleException{
-
+	
+	public ArrayList<Ville> getInfoVille(String nomCommune) {
 		init();
 		ArrayList<Ville> listVille;
-
-		listVille = villeDAO.findAllVilles();
-		System.out.println("Nombre de ville récupérée(s) : " + listVille.size());
-
+		if (nomCommune != null) {
+			listVille = villeDAO.findSpecificVille(nomCommune);
+		}
+		else {
+			listVille = villeDAO.findAllVilles();
+			System.out.println("Nombre de ville récupérée(s) : " + listVille.size());
+			
+		}
 		return listVille;
+		
 	}
 	
 	public void addInfoVille(Ville newVille) throws VilleException{
@@ -53,6 +56,8 @@ public class VillesBLOImpl implements VilleBLO {
 		villeDAO.removeVille(codeCommune);
 		
 	}
+
+
 
 
 }
