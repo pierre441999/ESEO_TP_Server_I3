@@ -1,8 +1,13 @@
 package com.blo;
 
+import java.util.ArrayList;
+
 import com.dto.Ville;
 
 public interface VilleBLO {
-	
-	Ville getInfoVilles(); 
+
+	public ArrayList<Ville> getInfoVille() throws VilleException;
+	public void addInfoVille(Ville newVille) throws VilleException;
+	public void updateInfoVille(Ville ville, String codeCommune) throws VilleException;
+	public void removeInfoVille(String codeCommune) throws VilleException;
 }

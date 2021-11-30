@@ -1,9 +1,16 @@
 package com.dao;
 
+import java.util.ArrayList;
+
 import com.dto.Ville;
 
 public interface VilleDAO {
 	
-	Ville findVille();
-
+	//Ville findVille();
+	public ArrayList<Ville> findAllVilles();
+	public void addVille(Ville ville);
+	public void updateVille(Ville ville, String codeCommune);
+	public void removeVille(String codeCommune);
+		
+	
 }
