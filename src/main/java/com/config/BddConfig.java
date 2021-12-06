@@ -15,9 +15,9 @@ import com.dao.VilleDAOImpl;
 
 public class BddConfig {
 	
-	private String url="";
-	private String username="";
-	private String password="";
+	private String url;
+	private String username;
+	private String password;
 	private static final String DRIVER = "org.mysql.jdbc.Driver";
 	
     public BddConfig(String fichier) {

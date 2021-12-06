@@ -10,12 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.config.BddConfig;
+import com.dto.Coordonnees;
 import com.dto.Ville;
 
 //@Repository
 public class VilleDAOImpl implements VilleDAO {
 	private Logger logger = LoggerFactory.getLogger(VilleDAOImpl.class);
 	private BddConfig bddconfig;
+
 
 	public VilleDAOImpl(BddConfig bddConfig) {
 		this.bddconfig = bddConfig;
@@ -32,21 +34,29 @@ public class VilleDAOImpl implements VilleDAO {
 			try (ResultSet resultat = preparedStatement.executeQuery()) {
 				while (resultat.next()) {
 					String codeCommune = resultat.getString("Code_Commune_INSEE");
-					String nomCommune = resultat.getString("Nom_Commune");
+					String nom_Commune = resultat.getString("Nom_Commune");
 					String codePostal = resultat.getString("Code_postal");
 					String libelle = resultat.getString("Libelle_acheminement");
 					String ligne_5 = resultat.getString("Ligne_5");
 					String latitude = resultat.getString("Latitude");
 					String longitude = resultat.getString("Longitude");
-		
-		
-					Ville ville = new Ville(codeCommune, nomCommune, codePostal, libelle, ligne_5, latitude, longitude);
+					Coordonnees coor = new Coordonnees(latitude, longitude);
+					
+			
+					Ville ville = new Ville(codeCommune, nom_Commune, codePostal,
+							libelle, ligne_5, coor);
 					listVille.add(ville);
+					
 				}
+				
+				
 			}
+
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
 		}
+		
+		
 
 		return listVille;
 	}
@@ -67,14 +77,18 @@ public class VilleDAOImpl implements VilleDAO {
 					String ligne_5 = resultat.getString("Ligne_5");
 					String latitude = resultat.getString("Latitude");
 					String longitude = resultat.getString("Longitude");
+					Coordonnees coor = new Coordonnees(latitude, longitude);
 					
 			
 					Ville ville = new Ville(codeCommune, nom_Commune, codePostal,
-							libelle, ligne_5, latitude, longitude);
+							libelle, ligne_5, coor);
 					listVille.add(ville);
 				}
 			}
-		} catch (SQLException e) {
+
+		} 
+		
+		catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
 		}
 
@@ -87,19 +101,26 @@ public class VilleDAOImpl implements VilleDAO {
 						.prepareStatement("INSERT INTO ville_france "
 								+ "(Code_Commune_INSEE, Nom_Commune, Code_postal,"
 								+ "Libelle_acheminement, Ligne_5, Latitude, Longitude)"
-								+ "VALUES (?, ?, ?, ?, ?, ?, ?);")){
+								+ "VALUES (?, ?, ?, ?, ?, ?, ?);"))
+		{
 			preparedStatement.setString(1, ville.getCodeCommune());
 			preparedStatement.setString(2, ville.getNomCommune());
 			preparedStatement.setString(3, ville.getCodePostale());
 			preparedStatement.setString(4, ville.getLibelle());
 			preparedStatement.setString(5, ville.getLigne_5());
-			preparedStatement.setString(6, ville.getLatitude());
-			preparedStatement.setString(7, ville.getLongitude());
+			preparedStatement.setString(6, ville.getCoord().getLatitude());
+			preparedStatement.setString(7, ville.getCoord().getLongitude());
 			preparedStatement.executeUpdate();
 			connexion.commit();
-		} catch (SQLException e) {
+			
+			
+		} 
+		
+		catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
 		}
+		
+		
 	}
 	
 	public void updateVille(Ville ville, String codeCommune){
@@ -115,8 +136,8 @@ public class VilleDAOImpl implements VilleDAO {
 			preparedStatement.setString(3, ville.getCodePostale());
 			preparedStatement.setString(4, ville.getLibelle());
 			preparedStatement.setString(5, ville.getLigne_5());
-			preparedStatement.setString(6, ville.getLatitude());
-			preparedStatement.setString(7, ville.getLongitude());
+			preparedStatement.setString(6, ville.getCoord().getLatitude());
+			preparedStatement.setString(7, ville.getCoord().getLongitude());
 			preparedStatement.setString(8, codeCommune);
 			preparedStatement.executeUpdate();
 			connexion.commit();

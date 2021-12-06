@@ -1,5 +1,7 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,20 +17,19 @@ public class Ville {
 	private String codePostale;
 	private String libelle;
 	private String ligne_5;
-	private String latitude;
-	private String longitude;
+	private Coordonnees coord;
 	
 	
-	public Ville(String codeCommune, String nomCommune, String codePostale, String libelle, String ligne_5,
-			String latitude, String longitude) {
+	public Ville(@JsonProperty("codeCommune") String codeCommune, @JsonProperty("nomCommune") String nomCommune,
+			@JsonProperty("codePostale") String codePostale, @JsonProperty("libelle") String libelle,
+			@JsonProperty("ligne_5") String ligne_5, @JsonProperty("coord") Coordonnees coord) {
 		super();
 		this.codeCommune = codeCommune;
 		this.nomCommune = nomCommune;
 		this.codePostale = codePostale;
 		this.libelle = libelle;
 		this.ligne_5 = ligne_5;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.coord = coord;
 	}
 	
 
@@ -56,23 +57,6 @@ public class Ville {
 		this.ligne_5 = ligne_5;
 	}
 
-	public String getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-
 	public String getNomCommune() {
 		return nomCommune;
 	}
@@ -88,6 +72,12 @@ public class Ville {
 	public void setCodeCommune(String codeCommune) {
 		this.codeCommune = codeCommune;
 	}
-	
+	public Coordonnees getCoord() {
+		return coord;
+	}
+
+	public void setCoord(Coordonnees coord) {
+		this.coord = coord;
+	}
 
 }
