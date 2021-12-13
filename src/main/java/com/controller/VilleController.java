@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class VilleController {
 	// Methode GET
 		@RequestMapping(value = "/ville", method = RequestMethod.GET)
 		@ResponseBody
-		public List<Ville> appelGet(@RequestParam(required = false, value = "codeCommune") String codeCommune) throws VilleException{
+		public List<Ville> appelGet(@RequestParam(required = false, value = "codeCommune") String codeCommune) throws VilleException, SQLException{
 
 			return villeBLOService.getInfoVille(codeCommune);
 		}
@@ -37,21 +38,21 @@ public class VilleController {
 	    
 		// Méthode POST
 		@RequestMapping(value = "/ville", method = RequestMethod.POST)
-		public void appelPost(@RequestBody Ville newVille) throws VilleException{
+		public void appelPost(@RequestBody Ville newVille) throws VilleException, SQLException{
 			villeBLOService.addInfoVille(newVille);
 			logger.info("ville ajoutée");
 		}
 		
 		// Méthode PUT
 		@RequestMapping(value = "/ville", method = RequestMethod.PUT)
-		public void appelPut(@RequestBody Ville newVille, @RequestParam(required = true, value = "codeCommune") String codeCommune) {
+		public void appelPut(@RequestBody Ville newVille, @RequestParam(required = true, value = "codeCommune") String codeCommune) throws VilleException, SQLException {
 			villeBLOService.updateInfoVille(newVille, codeCommune);
 			logger.info("ville modifiée");
 		}
 
 		// Méthode DELETE
 		@RequestMapping(value = "/ville", method = RequestMethod.DELETE)
-		public void appelDelete(@RequestParam(required = true, value = "codeCommune") String codeCommune) {
+		public void appelDelete(@RequestParam(required = true, value = "codeCommune") String codeCommune) throws VilleException, SQLException {
 			villeBLOService.removeInfoVille(codeCommune);
 			logger.info("ville supprimée");
 		}

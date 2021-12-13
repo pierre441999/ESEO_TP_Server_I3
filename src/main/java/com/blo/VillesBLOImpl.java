@@ -1,5 +1,6 @@
 package com.blo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class VillesBLOImpl implements VilleBLO {
 		this.villeDAO = bddConfig.getVilleDao();
 	}
 
-	public List<Ville> getInfoVille(String codeCommune) {
+	public List<Ville> getInfoVille(String codeCommune) throws SQLException {
 		init();
 		List<Ville> listVille;
 		if (codeCommune != null) {
@@ -32,20 +33,20 @@ public class VillesBLOImpl implements VilleBLO {
 
 	}
 
-	public void addInfoVille(Ville newVille) throws VilleException {
+	public void addInfoVille(Ville newVille) throws VilleException, SQLException {
 
 		init();
 		villeDAO.addVille(newVille);
 
 	}
 
-	public void updateInfoVille(Ville ville, String codeCommune) {
+	public void updateInfoVille(Ville ville, String codeCommune) throws SQLException {
 		init();
 		villeDAO.updateVille(ville, codeCommune);
 	}
 
 	@Override
-	public void removeInfoVille(String codeCommune) {
+	public void removeInfoVille(String codeCommune) throws SQLException{
 		init();
 		villeDAO.removeVille(codeCommune);
 

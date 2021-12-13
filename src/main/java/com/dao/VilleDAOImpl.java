@@ -19,16 +19,18 @@ public class VilleDAOImpl implements VilleDAO {
 	private Logger logger = LoggerFactory.getLogger(VilleDAOImpl.class);
 	private BddConfig bddconfig;
 
+	PreparedStatement preparedStatement = null;
+	ResultSet resultat = null;
+
 	public VilleDAOImpl(BddConfig bddConfig) {
 		this.bddconfig = bddConfig;
 	}
 
 	@Override
-	public List<Ville> findAllVilles() {
+	public List<Ville> findAllVilles() throws SQLException {
 		List<Ville> listVille = new ArrayList<>();
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultat = null;
+		Connection connection = this.bddconfig.getConnection();
+
 		try {
 			connection = bddconfig.getConnection();
 			preparedStatement = connection.prepareStatement("SELECT * FROM ville_france ;");
@@ -62,11 +64,9 @@ public class VilleDAOImpl implements VilleDAO {
 		return listVille;
 	}
 
-	public ArrayList<Ville> findSpecificVille(String codeCommune) {
+	public ArrayList<Ville> findSpecificVille(String codeCommune) throws SQLException {
 		ArrayList<Ville> listVille = new ArrayList<Ville>();
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultat = null;
+		Connection connection = this.bddconfig.getConnection();
 		try {
 			connection = bddconfig.getConnection();
 			preparedStatement = connection.prepareStatement("SELECT * FROM ville_france WHERE Code_Commune_INSEE=?");
@@ -100,9 +100,9 @@ public class VilleDAOImpl implements VilleDAO {
 		return listVille;
 	}
 
-	public void addVille(Ville ville) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	public void addVille(Ville ville) throws SQLException {
+		Connection connection = this.bddconfig.getConnection();
+
 		try {
 			connection = bddconfig.getConnection();
 			preparedStatement = connection
@@ -131,9 +131,9 @@ public class VilleDAOImpl implements VilleDAO {
 
 	}
 
-	public void updateVille(Ville ville, String codeCommune) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	public void updateVille(Ville ville, String codeCommune) throws SQLException {
+		Connection connection = this.bddconfig.getConnection();
+
 		try {
 			connection = bddconfig.getConnection();
 			preparedStatement = connection.prepareStatement(
@@ -153,8 +153,7 @@ public class VilleDAOImpl implements VilleDAO {
 			preparedStatement.close();
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
-		}
-		finally {
+		} finally {
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -163,21 +162,21 @@ public class VilleDAOImpl implements VilleDAO {
 		}
 	}
 
-	public void removeVille(String codeCommune) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	public void removeVille(String codeCommune) throws SQLException {
+		Connection connection = this.bddconfig.getConnection();
+
 		try {
 			connection = bddconfig.getConnection();
 			preparedStatement = connection.prepareStatement("DELETE FROM ville_france where Code_Commune_INSEE = ?;");
 			preparedStatement.setString(1, codeCommune);
 			preparedStatement.executeUpdate();
 			connection.commit();
-			preparedStatement.close();
+
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
-		}
-		finally {
+		} finally {
 			try {
+				preparedStatement.close();
 				connection.close();
 			} catch (SQLException e) {
 				this.logger.error("Impossible de se déconnecter.", e);
