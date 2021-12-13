@@ -8,7 +8,7 @@ public interface VilleDAO {
 	
 	//Ville findVille();
 	public ArrayList<Ville> findAllVilles();
-	public ArrayList<Ville> findSpecificVille(String nom_Commune);
+	public ArrayList<Ville> findSpecificVille(String code_Commune);
 	public void addVille(Ville ville);
 	public void updateVille(Ville ville, String codeCommune);
 	public void removeVille(String codeCommune);

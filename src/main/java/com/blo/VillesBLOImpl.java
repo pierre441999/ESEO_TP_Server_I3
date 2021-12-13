@@ -22,11 +22,11 @@ public class VillesBLOImpl implements VilleBLO {
 //	private VilleDAO villeDAO;
 	
 	
-	public ArrayList<Ville> getInfoVille(String nomCommune) {
+	public ArrayList<Ville> getInfoVille(String codeCommune) {
 		init();
 		ArrayList<Ville> listVille;
-		if (nomCommune != null) {
-			listVille = villeDAO.findSpecificVille(nomCommune);
+		if (codeCommune != null) {
+			listVille = villeDAO.findSpecificVille(codeCommune);
 		}
 		else {
 			listVille = villeDAO.findAllVilles();

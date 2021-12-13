@@ -33,8 +33,8 @@ public class VilleDAOImpl implements VilleDAO {
 
 			try (ResultSet resultat = preparedStatement.executeQuery()) {
 				while (resultat.next()) {
-					String codeCommune = resultat.getString("Code_Commune_INSEE");
-					String nom_Commune = resultat.getString("Nom_Commune");
+					String code_Commune = resultat.getString("Code_Commune_INSEE");
+					String nomCommune = resultat.getString("Nom_Commune");
 					String codePostal = resultat.getString("Code_postal");
 					String libelle = resultat.getString("Libelle_acheminement");
 					String ligne_5 = resultat.getString("Ligne_5");
@@ -43,7 +43,7 @@ public class VilleDAOImpl implements VilleDAO {
 					Coordonnees coor = new Coordonnees(latitude, longitude);
 					
 			
-					Ville ville = new Ville(codeCommune, nom_Commune, codePostal,
+					Ville ville = new Ville(code_Commune, nomCommune, codePostal,
 							libelle, ligne_5, coor);
 					listVille.add(ville);
 					
@@ -61,17 +61,17 @@ public class VilleDAOImpl implements VilleDAO {
 		return listVille;
 	}
 	
-	public ArrayList<Ville> findSpecificVille(String nomCommune) {
+	public ArrayList<Ville> findSpecificVille(String codeCommune) {
 		ArrayList<Ville> listVille = new ArrayList<Ville>();
 
 		try (Connection connexion = bddconfig.getConnection();
 				PreparedStatement preparedStatement = connexion
-						.prepareStatement("SELECT * FROM ville_france WHERE Nom_Commune=?")) {
-			preparedStatement.setString(1, nomCommune);
+						.prepareStatement("SELECT * FROM ville_france WHERE Code_Commune_INSEE=?")) {
+			preparedStatement.setString(1, codeCommune);
 			try (ResultSet resultat = preparedStatement.executeQuery()) {
 				while (resultat.next()) {
-					String codeCommune = resultat.getString("Code_Commune_INSEE");
-					String nom_Commune = resultat.getString("Nom_Commune");
+					String code_Commune = resultat.getString("Code_Commune_INSEE");
+					String nomCommune = resultat.getString("Nom_Commune");
 					String codePostal = resultat.getString("Code_postal");
 					String libelle = resultat.getString("Libelle_acheminement");
 					String ligne_5 = resultat.getString("Ligne_5");
@@ -80,7 +80,7 @@ public class VilleDAOImpl implements VilleDAO {
 					Coordonnees coor = new Coordonnees(latitude, longitude);
 					
 			
-					Ville ville = new Ville(codeCommune, nom_Commune, codePostal,
+					Ville ville = new Ville(code_Commune, nomCommune, codePostal,
 							libelle, ligne_5, coor);
 					listVille.add(ville);
 				}
