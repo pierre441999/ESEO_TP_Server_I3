@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ public class VilleDAOImpl implements VilleDAO {
 	}
 
 	@Override
-	public ArrayList<Ville> findAllVilles() {
-		ArrayList<Ville> listVille = new ArrayList<>();
+	public List<Ville> findAllVilles() {
+		List<Ville> listVille = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultat = null;
@@ -47,13 +48,17 @@ public class VilleDAOImpl implements VilleDAO {
 
 			}
 			preparedStatement.close();
-			resultat.close();
 		}
 
 		catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				this.logger.error("Impossible de se déconnecter.", e);
+			}
 		}
-
 		return listVille;
 	}
 
@@ -82,9 +87,14 @@ public class VilleDAOImpl implements VilleDAO {
 			}
 
 			preparedStatement.close();
-			resultat.close();
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				this.logger.error("Impossible de se déconnecter.", e);
+			}
 		}
 
 		return listVille;
@@ -111,6 +121,12 @@ public class VilleDAOImpl implements VilleDAO {
 			preparedStatement.close();
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				this.logger.error("Impossible de se déconnecter.", e);
+			}
 		}
 
 	}
@@ -138,6 +154,13 @@ public class VilleDAOImpl implements VilleDAO {
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
 		}
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				this.logger.error("Impossible de se déconnecter.", e);
+			}
+		}
 	}
 
 	public void removeVille(String codeCommune) {
@@ -152,6 +175,13 @@ public class VilleDAOImpl implements VilleDAO {
 			preparedStatement.close();
 		} catch (SQLException e) {
 			this.logger.error("Impossible d'exécuter la requête.", e);
+		}
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				this.logger.error("Impossible de se déconnecter.", e);
+			}
 		}
 
 	}

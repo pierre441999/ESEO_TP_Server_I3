@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 
 import com.dao.VilleDAO;
@@ -19,7 +21,7 @@ public class BddConfig {
 	private String username;
 	private String password;
 	private static final String DRIVER = "org.mysql.jdbc.Driver";
-	
+	private Logger logger = LoggerFactory.getLogger(VilleDAOImpl.class);
     public BddConfig(String fichier) {
     	loadBDDProperties(fichier);
     }
@@ -38,7 +40,8 @@ public class BddConfig {
 	        this.username = prop.getProperty("login");
 	        this.password = prop.getProperty("password");
 		} catch (IOException ex) {
-	        ex.printStackTrace();
+			this.logger.error("Impossible d'accéder à la bdd.", ex);
+	 
 	    }
     }
 	
